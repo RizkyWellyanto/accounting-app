@@ -10,5 +10,6 @@ Project is live at https://te-566-acctg-app.herokuapp.com/
 - run `npm start`
 - go to http://localhost:3000/
 
-## Contact
-if you have any problem running this app, feel free to contact me at wellyan@illinois.edu
+## Notes
+- if you have any problem running this app, feel free to contact me at wellyan@illinois.edu
+- DO NOT REFRESH THE PAGE. Due to the scope of the assignment, I don't have time to use a database. So any progress is saved in browser memory, and will be erased if you try a new session.

@@ -23,7 +23,8 @@ import {Customer} from "./model/Customer";
 const test_employee = new Employee("john", "smith", "", "", "Chicago", "IL", "", "123456789", "", "120000");
 const test_vendor = new Vendor("Toyota", "Whip it up yeet yeet", "100", "", "", "", "", "");
 const test_customer = new Customer("Amazon", "Jeff", "Bezos", "", "", "", "", "");
-const test_item = new Item("toilet paper", "20", "1000", "20000", "No");
+const test_item1 = new Item("toilet paper", "20", "1000", "20000", "No");
+const test_item2 = new Item("tsar bomba", "200000", "1", "200000", "Yes");
 
 class App extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class App extends Component {
 
             customer_list: [test_customer],
             employee_list: [test_employee],
-            inventory: [test_item],
+            inventory: [test_item1, test_item2],
             vendor_list: [test_vendor],
             invoice_list: [],
             po_list: [],
@@ -112,7 +113,9 @@ class App extends Component {
 
             case "inventory":
                 return (<div>
-                    <Inventory/>
+                    <h3>Inventory</h3>
+                    <Inventory
+                        inventory={this.state.inventory}/>
                 </div>);
 
             case "purchase_order":
