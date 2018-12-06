@@ -34,10 +34,11 @@ class App extends Component {
         };
 
         this.navHandler = this.navHandler.bind(this);
+        this.employeeListHandler = this.employeeListHandler.bind(this);
     }
 
-    employeeListHandler(employee_list){
-        this.state({
+    employeeListHandler(employee_list) {
+        this.setState({
             employee_list: employee_list
         })
     }
@@ -53,22 +54,26 @@ class App extends Component {
             case "employee":
                 return (<div>
                     <h3>Employees</h3>
-                    <EmployeeAdd/>
                     <EmployeeList
-                        employee_list = {this.state.employee_list}
+                        employee_list={this.state.employee_list}
                     />
+                    <EmployeeAdd
+                        employee_list={this.state.employee_list}
+                        onSubmit={(employeeList) => {
+                            this.employeeListHandler(employeeList)
+                        }}/>
                 </div>);
 
             case "vendor":
                 return (<div>
-                    <VendorAdd/>
                     <VendorList/>
+                    <VendorAdd/>
                 </div>);
 
             case "customer":
                 return (<div>
-                    <CustomerAdd/>
                     <CustomerList/>
+                    <CustomerAdd/>
                 </div>);
 
             case "inventory":
@@ -78,14 +83,14 @@ class App extends Component {
 
             case "purchase_order":
                 return (<div>
-                    <PurchaseOrderCreate/>
                     <PurchaseOrderHistory/>
+                    <PurchaseOrderCreate/>
                 </div>);
 
             case "invoice":
                 return (<div>
-                    <InvoiceCreate/>
                     <InvoiceHistory/>
+                    <InvoiceCreate/>
                 </div>);
 
             case "balance_sheet":
