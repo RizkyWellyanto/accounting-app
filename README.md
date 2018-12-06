@@ -9,3 +9,6 @@ Project is live at https://te-566-acctg-app.herokuapp.com/
 - run `yarn install`
 - run `npm start`
 - go to http://localhost:3000/
+
+## Contact
+if you have any problem running this app, feel free to contact me at wellyan@illinois.edu

@@ -24,7 +24,7 @@ class EmployeeAdd extends Component {
         this.handleAddress2 = this.handleAddress2.bind(this);
         this.handleCity = this.handleCity.bind(this);
         this.handleState = this.handleState.bind(this);
-        this.handleZipcode = this.handleZipcode.bind(this);
+        this.handleZip = this.handleZip.bind(this);
         this.handleSSN = this.handleSSN.bind(this);
         this.handleWitholdings = this.handleWitholdings.bind(this);
         this.handleSalary = this.handleSalary.bind(this);
@@ -68,9 +68,9 @@ class EmployeeAdd extends Component {
         })
     }
 
-    handleZipcode(e) {
+    handleZip(e) {
         this.setState({
-            zipcode: e.target.value
+            zip: e.target.value
         })
     }
 
@@ -93,9 +93,9 @@ class EmployeeAdd extends Component {
     }
 
     handleNewEmployee() {
-        const {first_name, last_name, address1, address2, city, state, zipcode, ssn, witholdings, salary} = this.state;
+        const {first_name, last_name, address1, address2, city, state, zip, ssn, witholdings, salary} = this.state;
 
-        const newEmployee = new Employee(first_name, last_name, address1, address2, city, state, zipcode, ssn, witholdings, salary);
+        const newEmployee = new Employee(first_name, last_name, address1, address2, city, state, zip, ssn, witholdings, salary);
 
         const newList = [...this.props.employee_list, newEmployee];
 
@@ -130,8 +130,8 @@ class EmployeeAdd extends Component {
                            onChange={this.handleState}/>
                 </div>
                 <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Zipcode"
-                           onChange={this.handleZipcode}/>
+                    <input type="text" className="form-control" placeholder="Zip Code"
+                           onChange={this.handleZip}/>
                 </div>
                 <div className="form-group">
                     <input type="text" className="form-control" placeholder="SSN"

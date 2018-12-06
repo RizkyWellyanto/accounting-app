@@ -16,8 +16,14 @@ import InvoiceCreate from "./component/InvoiceCreate";
 import BalanceSheet from "./component/BalanceSheet";
 import IncomeStatement from "./component/IncomeStatement";
 import {Employee} from "./model/Employee";
+import {Vendor} from "./model/Vendor";
+import {Item} from "./model/Item";
+import {Customer} from "./model/Customer";
 
 const test_employee = new Employee("john", "smith", "", "", "Chicago", "IL", "", "123456789", "", "120000");
+const test_vendor = new Vendor("Toyota", "Whip it up yeet yeet", "100", "", "", "", "", "");
+const test_customer = new Customer("Amazon", "Jeff", "Bezos", "", "", "", "", "");
+const test_item = new Item("toilet paper", "20", "1000", "20000", "No");
 
 class App extends Component {
     constructor(props) {
@@ -26,20 +32,36 @@ class App extends Component {
         this.state = {
             view: null,
 
-            customer_list: [],
+            customer_list: [test_customer],
             employee_list: [test_employee],
+            inventory: [test_item],
+            vendor_list: [test_vendor],
             invoice_list: [],
-            vendor_list: [],
             po_list: [],
         };
 
         this.navHandler = this.navHandler.bind(this);
+
         this.employeeListHandler = this.employeeListHandler.bind(this);
+        this.vendorListHandler = this.vendorListHandler.bind(this);
+        this.customerListHandler = this.customerListHandler.bind(this);
     }
 
     employeeListHandler(employee_list) {
         this.setState({
             employee_list: employee_list
+        })
+    }
+
+    vendorListHandler(vendor_list) {
+        this.setState({
+            vendor_list: vendor_list
+        })
+    }
+
+    customerListHandler(customer_list) {
+        this.setState({
+            customer_list: customer_list
         })
     }
 
@@ -66,14 +88,26 @@ class App extends Component {
 
             case "vendor":
                 return (<div>
-                    <VendorList/>
-                    <VendorAdd/>
+                    <h3>Vendors</h3>
+                    <VendorList
+                        vendor_list={this.state.vendor_list}/>
+                    <VendorAdd
+                        vendor_list={this.state.vendor_list}
+                        onSubmit={(vendorList) => {
+                            this.vendorListHandler(vendorList)
+                        }}/>
                 </div>);
 
             case "customer":
                 return (<div>
-                    <CustomerList/>
-                    <CustomerAdd/>
+                    <h3>Customers</h3>
+                    <CustomerList
+                        customer_list={this.state.customer_list}/>
+                    <CustomerAdd
+                        customer_list={this.state.customer_list}
+                        onSubmit = {(customerList) => {
+                            this.customerListHandler(customerList)
+                        }}/>
                 </div>);
 
             case "inventory":
