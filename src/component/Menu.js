@@ -12,6 +12,7 @@ class Menu extends Component {
                 <button className={"btn btn-default btn-lg"} onClick={() => {this.props.onClick("employee")}}>Employees</button>
                 <button className={"btn btn-default btn-lg"} onClick={() => {this.props.onClick("vendor")}}>Vendors</button>
                 <button className={"btn btn-default btn-lg"} onClick= {() => {this.props.onClick("customer")}}>Customers</button>
+                <button className={"btn btn-default btn-lg"} onClick= {() => {this.props.onClick("payment")}}>Payroll</button>
                 <button className={"btn btn-default btn-lg"} onClick= {() => {this.props.onClick("inventory")}}>Inventory</button>
                 <button className={"btn btn-default btn-lg"} onClick= {() => {this.props.onClick("invoice")}}>Invoice</button>
                 <button className={"btn btn-default btn-lg"} onClick= {() => {this.props.onClick("purchase_order")}}>Purchase Order</button>

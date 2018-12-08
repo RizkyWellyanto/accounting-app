@@ -19,6 +19,8 @@ import {Employee} from "./model/Employee";
 import {Vendor} from "./model/Vendor";
 import {Item} from "./model/Item";
 import {Customer} from "./model/Customer";
+import PaymentList from "./component/PaymentList";
+import PaymentAdd from "./component/PaymentAdd";
 
 const test_employee = new Employee("john", "smith", "", "", "Chicago", "IL", "", "123456789", "", "120000");
 const test_vendor = new Vendor("Toyota", "Whip it up yeet yeet", "100", "", "", "", "", "");
@@ -33,12 +35,64 @@ class App extends Component {
         this.state = {
             view: null,
 
+            // lists
             customer_list: [test_customer],
             employee_list: [test_employee],
             inventory: [test_item1, test_item2],
             vendor_list: [test_vendor],
+            payment_list: [],
+
             invoice_list: [],
             po_list: [],
+
+            // temporary objects
+            current_employee: null,
+            current_vendor: null,
+            current_customer: null,
+
+            // accounting variables
+            income_statement: {
+                sales: {
+                    sales: 0,
+                    cogs: 0,
+                    gross_profit: 0
+                },
+                expenses: {
+                    payroll: 0,
+                    payroll_witholding: 0,
+                    bills: 0,
+                    annual_expenses: 0,
+                    total_expenses: 0,
+                },
+                other_income: 0,
+                operating_income: 0,
+                income_taxes: 0,
+                net_income: 0
+            },
+            balance_sheet: {
+                assets: {
+                    cash: 0,
+                    accounts_receivable: 0,
+                    inventory: 0,
+                    total_current_assets: 0,
+                    land_and_buildings: 0,
+                    equipment: 0,
+                    furniture_and_fixtures: 0,
+                    total_fixed_assets: 0,
+                    total_assets: 0,
+                },
+                liabilities: {
+                    accounts_payable: 0,
+                    notes_payable: 0,
+                    accruals: 0,
+                    total_current_liabilities: 0,
+                    mortgage: 0,
+                    total_long_term_debt: 0,
+                    total_liabilities: 0,
+                },
+                net_worth: 0,
+            }
+
         };
 
         this.navHandler = this.navHandler.bind(this);
@@ -46,7 +100,30 @@ class App extends Component {
         this.employeeListHandler = this.employeeListHandler.bind(this);
         this.vendorListHandler = this.vendorListHandler.bind(this);
         this.customerListHandler = this.customerListHandler.bind(this);
+        this.paymentListHandler= this.paymentListHandler.bind(this);
+
+        // this.currentCustomerHandler= this.currentCustomerHandler.bind(this);
+        // this.currentEmployeeHandler= this.currentEmployeeHandler.bind(this);
+        // this.currentVendorHandler= this.currentVendorHandler.bind(this);
     }
+
+    // currentEmployeeHandler(employee) {
+    //     this.setState({
+    //         current_employee: employee
+    //     })
+    // }
+    //
+    // currentCustomerHandler(customer) {
+    //     this.setState({
+    //         current_customer: customer
+    //     })
+    // }
+    //
+    // currentVendorHandler(vendor) {
+    //     this.setState({
+    //         current_vendor: vendor
+    //     })
+    // }
 
     employeeListHandler(employee_list) {
         this.setState({
@@ -63,6 +140,12 @@ class App extends Component {
     customerListHandler(customer_list) {
         this.setState({
             customer_list: customer_list
+        })
+    }
+
+    paymentListHandler(payment_list) {
+        this.setState({
+            payment_list: payment_list
         })
     }
 
@@ -106,8 +189,21 @@ class App extends Component {
                         customer_list={this.state.customer_list}/>
                     <CustomerAdd
                         customer_list={this.state.customer_list}
-                        onSubmit = {(customerList) => {
+                        onSubmit={(customerList) => {
                             this.customerListHandler(customerList)
+                        }}/>
+                </div>);
+
+            case "payment":
+                return (<div>
+                    <h3>Payroll History</h3>
+                    <PaymentList
+                        payment_list = {this.state.payment_list}/>
+                    <PaymentAdd
+                        employee_list = {this.state.employee_list}
+                        payment_list = {this.state.payment_list}
+                        onSubmit={(payment_list) => {
+                            this.paymentListHandler(payment_list)
                         }}/>
                 </div>);
 
