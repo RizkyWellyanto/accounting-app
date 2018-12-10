@@ -64,7 +64,7 @@ class InvoiceAdd extends Component {
         return (
             <form className="form-inline">
                 <select value={this.state.current_customer} onChange={this.handleChange} className="form-control">
-                    <option value={null}>Select Customer</option>
+                    <option value={null} disabled>Select Customer</option>
                     {this.renderCustomerOptions()}
                 </select>
 

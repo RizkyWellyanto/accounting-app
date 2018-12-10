@@ -24,8 +24,7 @@ class IncomeStatement extends Component {
 
         return (
             <div>
-                <h2>Income Statement</h2>
-                <h3>Sales</h3>
+                <h4>Sales</h4>
                 <table className={"table table-bordered table-striped"}>
                     <tbody>
                     <tr>
@@ -43,7 +42,7 @@ class IncomeStatement extends Component {
                     </tbody>
                 </table>
 
-                <h3>Expenses</h3>
+                <h4>Expenses</h4>
                 <table className={"table table-bordered table-striped"}>
                     <tbody>
                     <tr>

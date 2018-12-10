@@ -1,4 +1,4 @@
-export class Item {
+export class Part {
     constructor(part, ppu, qty, val, reord){
         this.part = part;
         this.price_per_unit = ppu;

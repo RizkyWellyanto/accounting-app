@@ -48,7 +48,7 @@ class PaymentAdd extends Component {
         return (
             <form className="form-inline">
                 <select value={this.state.current_employee} onChange={this.handleChange} className="form-control">
-                    <option value={null}>Select Employee</option>
+                    <option value={null} disabled>Select Employee</option>
                     {this.renderEmployeeOptions()}
                 </select>
 

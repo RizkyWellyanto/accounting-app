@@ -30,7 +30,6 @@ class BalanceSheet extends Component {
 
         return (
             <div>
-                <h3>Balance Sheet</h3>
                 <table className={"table table-bordered table-striped"}>
                     <tbody>
                     <tr>

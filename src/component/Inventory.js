@@ -40,22 +40,22 @@ class Inventory extends Component {
                     </tbody>
                 </table>
 
-                <table className={"table table-bordered table-striped"}>
-                    <tbody>
-                    <tr>
-                        <th>Total</th>
-                        <th>COG/Unit</th>
-                        <th>Total Units that can be built from current parts</th>
-                    </tr>
+                {/*<table className={"table table-bordered table-striped"}>*/}
+                    {/*<tbody>*/}
+                    {/*<tr>*/}
+                        {/*<th>Total</th>*/}
+                        {/*<th>COG/Unit</th>*/}
+                        {/*<th>Total Units that can be built from current parts</th>*/}
+                    {/*</tr>*/}
 
-                    <tr>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                    </tr>
+                    {/*<tr>*/}
+                        {/*<td>{}</td>*/}
+                        {/*<td>{}</td>*/}
+                        {/*<td>{}</td>*/}
+                    {/*</tr>*/}
 
-                    </tbody>
-                </table>
+                    {/*</tbody>*/}
+                {/*</table>*/}
             </div>
         );
     }

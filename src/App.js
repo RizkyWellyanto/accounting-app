@@ -17,7 +17,7 @@ import BalanceSheet from "./component/BalanceSheet";
 import IncomeStatement from "./component/IncomeStatement";
 import {Employee} from "./model/Employee";
 import {Vendor} from "./model/Vendor";
-import {Item} from "./model/Item";
+import {Part} from "./model/Part";
 import {Customer} from "./model/Customer";
 import PaymentList from "./component/PaymentList";
 import PaymentAdd from "./component/PaymentAdd";
@@ -25,8 +25,8 @@ import PaymentAdd from "./component/PaymentAdd";
 const test_employee = new Employee("john", "smith", "", "", "Chicago", "IL", "", "123456789", "", "120000");
 const test_vendor = new Vendor("Toyota", "Whip it up yeet yeet", "100", "", "", "", "", "");
 const test_customer = new Customer("Amazon", "Jeff", "Bezos", "", "", "", "", "");
-const test_item1 = new Item("toilet paper", "20", "1000", "20000", "No");
-const test_item2 = new Item("tsar bomba", "200000", "1", "200000", "Yes");
+const test_item1 = new Part("toilet paper", "20", "1000", "20000", "No");
+const test_item2 = new Part("tsar bomba", "200000", "1", "200000", "Yes");
 
 class App extends Component {
     constructor(props) {
@@ -94,6 +94,8 @@ class App extends Component {
         this.customerListHandler = this.customerListHandler.bind(this);
         this.paymentListHandler = this.paymentListHandler.bind(this);
         this.invoiceListHandler = this.invoiceListHandler.bind(this);
+        this.inventoryHandler = this.inventoryHandler.bind(this);
+        this.purchaseOrderListHandler = this.purchaseOrderListHandler.bind(this);
 
         // this.currentCustomerHandler= this.currentCustomerHandler.bind(this);
         // this.currentEmployeeHandler= this.currentEmployeeHandler.bind(this);
@@ -145,6 +147,18 @@ class App extends Component {
     invoiceListHandler(invoice_list) {
         this.setState({
             invoice_list: invoice_list
+        })
+    }
+
+    inventoryHandler(inventory) {
+        this.setState({
+            inventory: inventory
+        })
+    }
+
+    purchaseOrderListHandler(po_list) {
+        this.setState({
+            po_list: po_list
         })
     }
 
@@ -215,12 +229,20 @@ class App extends Component {
 
             case "purchase_order":
                 return (<div>
-                    <PurchaseOrderList/>
-                    <PurchaseOrderAdd/>
+                    <h3>Purchase Order</h3>
+                    <PurchaseOrderList
+                        po_list={this.state.po_list}/>
+                    <PurchaseOrderAdd
+                        inventory={this.state.inventory}
+                        po_list={this.state.po_list}
+                        onSubmit={(poList) => {
+                            this.purchaseOrderListHandler(poList)
+                        }}/>
                 </div>);
 
             case "invoice":
                 return (<div>
+                    <h3>Invoice</h3>
                     <InvoiceList
                         invoice_list={this.state.invoice_list}/>
                     <InvoiceAdd
@@ -233,12 +255,14 @@ class App extends Component {
 
             case "balance_sheet":
                 return (<div>
+                    <h3>Balance Sheet</h3>
                     <BalanceSheet
                         balance_sheet={this.state.balance_sheet}/>
                 </div>);
 
             case "income_statement":
                 return (<div>
+                    <h3>Income Statement</h3>
                     <IncomeStatement
                         income_statement={this.state.income_statement}/>
                 </div>);
