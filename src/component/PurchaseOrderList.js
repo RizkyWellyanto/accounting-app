@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class PurchaseOrderHistory extends Component {
+class PurchaseOrderList extends Component {
     render() {
         return (
             <div>
@@ -10,4 +10,4 @@ class PurchaseOrderHistory extends Component {
     }
 }
 
-export default PurchaseOrderHistory;
+export default PurchaseOrderList;

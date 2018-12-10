@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class InvoiceHistory extends Component {
+class PurchaseOrderAdd extends Component {
     render() {
         return (
             <div>
-                Invoice History
+                Purchase Order Create
             </div>
         );
     }
 }
 
-export default InvoiceHistory;
+export default PurchaseOrderAdd;

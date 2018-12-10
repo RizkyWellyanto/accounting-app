@@ -9,10 +9,10 @@ import VendorAdd from "./component/VendorAdd";
 import CustomerList from "./component/CustomerList";
 import CustomerAdd from "./component/CustomerAdd";
 import Inventory from "./component/Inventory";
-import PurchaseOrderCreate from "./component/PurchaseOrderCreate";
-import PurchaseOrderHistory from "./component/PurchaseOrderHistory";
-import InvoiceHistory from "./component/InvoiceHistory";
-import InvoiceCreate from "./component/InvoiceCreate";
+import PurchaseOrderAdd from "./component/PurchaseOrderAdd";
+import PurchaseOrderList from "./component/PurchaseOrderList";
+import InvoiceList from "./component/InvoiceList";
+import InvoiceAdd from "./component/InvoiceAdd";
 import BalanceSheet from "./component/BalanceSheet";
 import IncomeStatement from "./component/IncomeStatement";
 import {Employee} from "./model/Employee";
@@ -93,6 +93,7 @@ class App extends Component {
         this.vendorListHandler = this.vendorListHandler.bind(this);
         this.customerListHandler = this.customerListHandler.bind(this);
         this.paymentListHandler = this.paymentListHandler.bind(this);
+        this.invoiceListHandler = this.invoiceListHandler.bind(this);
 
         // this.currentCustomerHandler= this.currentCustomerHandler.bind(this);
         // this.currentEmployeeHandler= this.currentEmployeeHandler.bind(this);
@@ -138,6 +139,12 @@ class App extends Component {
     paymentListHandler(payment_list) {
         this.setState({
             payment_list: payment_list
+        })
+    }
+
+    invoiceListHandler(invoice_list) {
+        this.setState({
+            invoice_list: invoice_list
         })
     }
 
@@ -208,14 +215,20 @@ class App extends Component {
 
             case "purchase_order":
                 return (<div>
-                    <PurchaseOrderHistory/>
-                    <PurchaseOrderCreate/>
+                    <PurchaseOrderList/>
+                    <PurchaseOrderAdd/>
                 </div>);
 
             case "invoice":
                 return (<div>
-                    <InvoiceHistory/>
-                    <InvoiceCreate/>
+                    <InvoiceList
+                        invoice_list={this.state.invoice_list}/>
+                    <InvoiceAdd
+                        customer_list={this.state.customer_list}
+                        invoice_list={this.state.invoice_list}
+                        onSubmit={(invoiceList) => {
+                            this.invoiceListHandler(invoiceList)
+                        }}/>
                 </div>);
 
             case "balance_sheet":
