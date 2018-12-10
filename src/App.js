@@ -53,16 +53,14 @@ class App extends Component {
             // accounting variables
             income_statement: {
                 sales: {
-                    sales: 0,
-                    cogs: 0,
-                    gross_profit: 0
+                    sales: 1000000,
+                    cogs: 308000,
                 },
                 expenses: {
-                    payroll: 0,
-                    payroll_witholding: 0,
+                    payroll: 96762.6,
+                    payroll_witholding: 53237.4,
                     bills: 0,
-                    annual_expenses: 0,
-                    total_expenses: 0,
+                    annual_expenses: 199999.92,
                 },
                 other_income: 0,
                 operating_income: 0,
@@ -71,24 +69,18 @@ class App extends Component {
             },
             balance_sheet: {
                 assets: {
-                    cash: 0,
+                    cash: 225000,
                     accounts_receivable: 0,
                     inventory: 0,
-                    total_current_assets: 0,
                     land_and_buildings: 0,
                     equipment: 0,
                     furniture_and_fixtures: 0,
-                    total_fixed_assets: 0,
-                    total_assets: 0,
                 },
                 liabilities: {
                     accounts_payable: 0,
                     notes_payable: 0,
                     accruals: 0,
-                    total_current_liabilities: 0,
                     mortgage: 0,
-                    total_long_term_debt: 0,
-                    total_liabilities: 0,
                 },
                 net_worth: 0,
             }
@@ -100,7 +92,7 @@ class App extends Component {
         this.employeeListHandler = this.employeeListHandler.bind(this);
         this.vendorListHandler = this.vendorListHandler.bind(this);
         this.customerListHandler = this.customerListHandler.bind(this);
-        this.paymentListHandler= this.paymentListHandler.bind(this);
+        this.paymentListHandler = this.paymentListHandler.bind(this);
 
         // this.currentCustomerHandler= this.currentCustomerHandler.bind(this);
         // this.currentEmployeeHandler= this.currentEmployeeHandler.bind(this);
@@ -198,10 +190,10 @@ class App extends Component {
                 return (<div>
                     <h3>Payroll History</h3>
                     <PaymentList
-                        payment_list = {this.state.payment_list}/>
+                        payment_list={this.state.payment_list}/>
                     <PaymentAdd
-                        employee_list = {this.state.employee_list}
-                        payment_list = {this.state.payment_list}
+                        employee_list={this.state.employee_list}
+                        payment_list={this.state.payment_list}
                         onSubmit={(payment_list) => {
                             this.paymentListHandler(payment_list)
                         }}/>
@@ -228,12 +220,14 @@ class App extends Component {
 
             case "balance_sheet":
                 return (<div>
-                    <BalanceSheet/>
+                    <BalanceSheet
+                        balance_sheet={this.state.balance_sheet}/>
                 </div>);
 
             case "income_statement":
                 return (<div>
-                    <IncomeStatement/>
+                    <IncomeStatement
+                        income_statement={this.state.income_statement}/>
                 </div>);
 
             default:
