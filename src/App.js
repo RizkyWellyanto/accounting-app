@@ -22,11 +22,25 @@ import {Customer} from "./model/Customer";
 import PaymentList from "./component/PaymentList";
 import PaymentAdd from "./component/PaymentAdd";
 
-const test_employee = new Employee("john", "smith", "", "", "Chicago", "IL", "", "123456789", "", "120000");
-const test_vendor = new Vendor("Toyota", "Whip it up yeet yeet", "100", "", "", "", "", "");
-const test_customer = new Customer("Amazon", "Jeff", "Bezos", "", "", "", "", "");
-const test_item1 = new Part("toilet paper", "20", "1000", "20000", "No");
-const test_item2 = new Part("tsar bomba", "200000", "1", "200000", "Yes");
+// initial items
+const test_employee1 = new Employee("Alex", "Anderson", "", "", "Champaign", "IL", "", "61820", "", "100000");
+const test_employee2 = new Employee("Betty", "Bobbitt", "", "", "Urbana", "IL", "", "61801", "", "120000");
+const test_employee3 = new Employee("Cathy", "Clock", "", "", "Chicago", "IL", "", "61234", "", "80000");
+const test_vendor1 = new Vendor("Lotus", "Steering Wheel", "100", "", "", "", "", "");
+const test_vendor2 = new Vendor("Michelin", "Tire", "400", "", "", "", "", "");
+const test_vendor3 = new Vendor("Brembo", "Brakes", "150", "", "", "", "", "");
+const test_vendor4 = new Vendor("Alcoa", "Steel", "5000", "", "", "", "", "");
+const test_vendor5 = new Vendor("Corning", "Windshield", "650", "", "", "", "", "");
+const test_vendor6 = new Vendor("Lamborghini", "V12 Engine", "24650", "", "", "", "", "");
+const test_customer1 = new Customer("Amazon", "Jeff", "Bezos", "", "", "", "", "");
+const test_customer2 = new Customer("Microsoft", "William", "Gates", "", "", "", "", "");
+const test_customer3 = new Customer("Tesla", "Elon", "Musk", "", "", "", "", "");
+const test_item1 = new Part("Steering Wheel", "100", "300", "No");
+const test_item2 = new Part("Tire", "400", "158", "No");
+const test_item3 = new Part("Brakes", "150", "180", "No");
+const test_item4 = new Part("Steel", "5000", "10", "No");
+const test_item5 = new Part("Windshield", "650", "120", "No");
+const test_item6 = new Part("V12 Engine", "24650", "3", "No");
 
 class App extends Component {
     constructor(props) {
@@ -36,19 +50,28 @@ class App extends Component {
             view: null,
 
             // lists
-            customer_list: [test_customer],
-            employee_list: [test_employee],
-            inventory: [test_item1, test_item2],
-            vendor_list: [test_vendor],
+            customer_list: [test_customer1, test_customer2, test_customer3],
+            employee_list: [test_employee1, test_employee2, test_employee3],
+            inventory: [test_item1, test_item2, test_item3, test_item4, test_item5, test_item6],
+            vendor_list: [test_vendor1, test_vendor2, test_vendor3, test_vendor4, test_vendor5, test_vendor6],
             payment_list: [],
-
             invoice_list: [],
             po_list: [],
 
-            // temporary objects
-            current_employee: null,
-            current_vendor: null,
-            current_customer: null,
+            // actual product
+            product:{
+                parts: {
+                    "Steering Wheel": 1,
+                    "Tire": 4,
+                    "Brakes": 4,
+                    "Steel": 1,
+                    "Windshield": 1,
+                    "V12 Engine": 1,
+                },
+                price: 175000,
+                cogs: 32600,
+                // units_in_stock: 100,
+            },
 
             // accounting variables
             income_statement: {
@@ -65,24 +88,22 @@ class App extends Component {
                 other_income: 0,
                 operating_income: 0,
                 income_taxes: 0,
-                net_income: 0
             },
             balance_sheet: {
                 assets: {
                     cash: 225000,
                     accounts_receivable: 0,
-                    inventory: 0,
-                    land_and_buildings: 0,
-                    equipment: 0,
-                    furniture_and_fixtures: 0,
+                    inventory: 322150,
+                    land_and_buildings: 500000,
+                    equipment: 250000,
+                    furniture_and_fixtures: 100000,
                 },
                 liabilities: {
                     accounts_payable: 0,
                     notes_payable: 0,
                     accruals: 0,
-                    mortgage: 0,
+                    mortgage: 50000,
                 },
-                net_worth: 0,
             }
 
         };
@@ -96,29 +117,21 @@ class App extends Component {
         this.invoiceListHandler = this.invoiceListHandler.bind(this);
         this.inventoryHandler = this.inventoryHandler.bind(this);
         this.purchaseOrderListHandler = this.purchaseOrderListHandler.bind(this);
-
-        // this.currentCustomerHandler= this.currentCustomerHandler.bind(this);
-        // this.currentEmployeeHandler= this.currentEmployeeHandler.bind(this);
-        // this.currentVendorHandler= this.currentVendorHandler.bind(this);
+        this.balanceSheetHandler = this.balanceSheetHandler.bind(this);
+        this.incomeStatementHandler = this.incomeStatementHandler.bind(this);
     }
 
-    // currentEmployeeHandler(employee) {
-    //     this.setState({
-    //         current_employee: employee
-    //     })
-    // }
-    //
-    // currentCustomerHandler(customer) {
-    //     this.setState({
-    //         current_customer: customer
-    //     })
-    // }
-    //
-    // currentVendorHandler(vendor) {
-    //     this.setState({
-    //         current_vendor: vendor
-    //     })
-    // }
+    balanceSheetHandler(balance_sheet){
+        this.setState({
+            balance_sheet: balance_sheet
+        })
+    }
+
+    incomeStatementHandler(income_statement){
+        this.setState({
+            income_statement: income_statement
+        })
+    }
 
     employeeListHandler(employee_list) {
         this.setState({
@@ -213,10 +226,14 @@ class App extends Component {
                     <PaymentList
                         payment_list={this.state.payment_list}/>
                     <PaymentAdd
+                        balance_sheet={this.state.balance_sheet}
+                        income_statement={this.state.income_statement}
                         employee_list={this.state.employee_list}
                         payment_list={this.state.payment_list}
-                        onSubmit={(payment_list) => {
-                            this.paymentListHandler(payment_list)
+                        onSubmit={(payment_list, balance_sheet, income_statement) => {
+                            this.paymentListHandler(payment_list);
+                            this.balanceSheetHandler(balance_sheet);
+                            this.incomeStatementHandler(income_statement)
                         }}/>
                 </div>);
 
@@ -224,6 +241,7 @@ class App extends Component {
                 return (<div>
                     <h3>Inventory</h3>
                     <Inventory
+                        product={this.state.product}
                         inventory={this.state.inventory}/>
                 </div>);
 
@@ -233,10 +251,16 @@ class App extends Component {
                     <PurchaseOrderList
                         po_list={this.state.po_list}/>
                     <PurchaseOrderAdd
+                        product={this.state.product}
+                        balance_sheet={this.state.balance_sheet}
+                        income_statement={this.state.income_statement}
                         inventory={this.state.inventory}
                         po_list={this.state.po_list}
-                        onSubmit={(poList) => {
-                            this.purchaseOrderListHandler(poList)
+                        onSubmit={(poList, inventory, balance_sheet, income_statement) => {
+                            this.purchaseOrderListHandler(poList);
+                            this.inventoryHandler(inventory);
+                            this.balanceSheetHandler(balance_sheet);
+                            this.incomeStatementHandler(income_statement);
                         }}/>
                 </div>);
 
@@ -246,10 +270,16 @@ class App extends Component {
                     <InvoiceList
                         invoice_list={this.state.invoice_list}/>
                     <InvoiceAdd
+                        product={this.state.product}
+                        balance_sheet={this.state.balance_sheet}
+                        income_statement={this.state.income_statement}
+                        inventory={this.state.inventory}
                         customer_list={this.state.customer_list}
                         invoice_list={this.state.invoice_list}
-                        onSubmit={(invoiceList) => {
-                            this.invoiceListHandler(invoiceList)
+                        onSubmit={(invoiceList, inventory, balance_sheet) => {
+                            this.invoiceListHandler(invoiceList);
+                            this.inventoryHandler(inventory);
+                            this.balanceSheetHandler(balance_sheet);
                         }}/>
                 </div>);
 

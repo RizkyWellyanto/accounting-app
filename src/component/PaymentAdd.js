@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {Employee} from "../model/Employee";
 import {Payment} from "../model/Payment";
+import clone from "clone";
+// import deepcopy from 'deepcopy';
 
 class PaymentAdd extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            current_employee:""
+            curr_idx:-1
         };
 
         this.handleNewPayment = this.handleNewPayment.bind(this);
@@ -26,29 +27,39 @@ class PaymentAdd extends Component {
 
     handleChange(event){
         this.setState({
-            current_employee: this.props.employee_list[event.target.value]
+            curr_idx: event.target.value
         })
     }
 
 
     handleNewPayment() {
-        if (this.state.current_employee && this.props.payment_list){
+        if (this.state.curr_idx >= 0 && this.props.payment_list){
+            const currentEmployee = this.props.employee_list[this.state.curr_idx];
+            const newPayment = new Payment(currentEmployee);
+            const {salary} = currentEmployee;
 
-            const newPayment = new Payment(this.state.current_employee);
+            var newBalanceSheet = clone(this.props.balance_sheet);
+            var newIncomeStatement = clone(this.props.income_statement);
 
-            // TODO do accounting math here
-
+            // make new payment
             const newList = [...this.props.payment_list, newPayment];
 
-            this.props.onSubmit(newList);
+            // reduce cash by salary amount in balance_sheet
+            newBalanceSheet.assets.cash -= salary;
+
+            // increase expenses by salary amount in income_statement
+            newIncomeStatement.expenses.payroll += newPayment.disbursement;
+            newIncomeStatement.expenses.payroll_witholding += newPayment.witholding;
+
+            this.props.onSubmit(newList, newBalanceSheet, newIncomeStatement);
         }
     }
 
     render() {
         return (
             <form className="form-inline">
-                <select value={this.state.current_employee} onChange={this.handleChange} className="form-control">
-                    <option value={null} disabled>Select Employee</option>
+                <select value={this.state.curr_idx} onChange={this.handleChange} className="form-control">
+                    <option value={-1} disabled>Select Employee</option>
                     {this.renderEmployeeOptions()}
                 </select>
 

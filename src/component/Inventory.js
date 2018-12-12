@@ -12,9 +12,9 @@ class Inventory extends Component {
                     return (
                         <tr key={idx}>
                             <td>{item.part || ""}</td>
-                            <td>{item.price_per_unit || ""}</td>
-                            <td>{item.quantity || ""}</td>
-                            <td>{item.value || ""}</td>
+                            <td>{item.price_per_unit || 0}</td>
+                            <td>{item.quantity || 0}</td>
+                            <td>{item.value || 0}</td>
                             <td>{item.reorder || ""}</td>
                         </tr>
                     )
@@ -39,23 +39,6 @@ class Inventory extends Component {
                     {this.renderItems()}
                     </tbody>
                 </table>
-
-                {/*<table className={"table table-bordered table-striped"}>*/}
-                    {/*<tbody>*/}
-                    {/*<tr>*/}
-                        {/*<th>Total</th>*/}
-                        {/*<th>COG/Unit</th>*/}
-                        {/*<th>Total Units that can be built from current parts</th>*/}
-                    {/*</tr>*/}
-
-                    {/*<tr>*/}
-                        {/*<td>{}</td>*/}
-                        {/*<td>{}</td>*/}
-                        {/*<td>{}</td>*/}
-                    {/*</tr>*/}
-
-                    {/*</tbody>*/}
-                {/*</table>*/}
             </div>
         );
     }

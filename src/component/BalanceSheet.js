@@ -34,7 +34,7 @@ class BalanceSheet extends Component {
                     <tbody>
                     <tr>
                         <th colSpan={2}>Assets</th>
-                        <th colSpan={2}>Liability</th>
+                        <th colSpan={2}>Liabilities</th>
                     </tr>
 
                     <tr>

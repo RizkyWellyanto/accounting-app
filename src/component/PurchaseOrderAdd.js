@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {PurchaseOrder} from "../model/PurchaseOrder";
+import clone from "clone";
+import {Part} from "../model/Part";
 
 class PurchaseOrderAdd extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            current_part: "",
+            curr_idx: -1,
             quantity: 0,
             price_per_part: 0,
         };
@@ -29,7 +31,7 @@ class PurchaseOrderAdd extends Component {
 
     handleChange(event) {
         this.setState({
-            current_part: this.props.inventory[event.target.value]
+            curr_idx: event.target.value
         })
     }
 
@@ -47,33 +49,48 @@ class PurchaseOrderAdd extends Component {
 
 
     handleNewPurchaseOrder() {
-        if (this.state.current_part && this.props.po_list) {
+        if (this.state.curr_idx >= 0 && this.props.po_list) {
+            const currentPart = this.props.inventory[this.state.curr_idx];
+            const newPO = new PurchaseOrder(this.props.po_list.length, currentPart, this.state.quantity, currentPart.price_per_part);
 
-            const newPO = new PurchaseOrder(this.props.po_list.length, this.state.current_part, this.state.quantity, this.state.price_per_part);
+            var newBalanceSheet = clone(this.props.balance_sheet);
 
-            // TODO do accounting math here
-
+            // add new purchase order
             const newList = [...this.props.po_list, newPO];
 
-            this.props.onSubmit(newList);
+            // increase item in inventory
+            var newInventory = this.props.inventory.map((partInInventory) => {
+                if(partInInventory.part === currentPart.part){
+                    const part = partInInventory.part;
+                    const ppu = partInInventory.price_per_unit;
+                    const qty = partInInventory.quantity + this.state.quantity;
+                    const reord = partInInventory.quantity < this.props.product.parts[partInInventory] ? "Yes" : "No";
+
+                    return new Part(part, ppu, qty, reord);
+                }
+
+                return partInInventory
+            });
+
+            // increase accounts payable in balance sheet, and increase inventory in balance sheet
+            newBalanceSheet.liabilities.accounts_payable += newPO.total;
+            newBalanceSheet.assets.inventory += newPO.total;
+
+            this.props.onSubmit(newList, newInventory, newBalanceSheet);
         }
     }
 
     render() {
         return (
             <form className="form-inline">
-                <select value={this.state.current_part} onChange={this.handleChange} className="form-control">
-                    <option value={null} disabled>Select Part</option>
+                <select value={this.state.curr_idx} onChange={this.handleChange} className="form-control">
+                    <option value={-1} disabled>Select Part</option>
                     {this.renderPartOptions()}
                 </select>
 
                 <div className="form-group">
                     <input type="text" className="form-control" placeholder="Quantity"
                            onChange={this.handleQuantity}/>
-                </div>
-                <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Price Per Part"
-                           onChange={this.handlePricePerPart}/>
                 </div>
 
                 <button type="button" className="btn btn-default btn-primary" onClick={this.handleNewPurchaseOrder}>Order Parts
