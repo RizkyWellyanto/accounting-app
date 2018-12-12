@@ -51,7 +51,7 @@ class PurchaseOrderAdd extends Component {
     handleNewPurchaseOrder() {
         if (this.state.curr_idx >= 0 && this.props.po_list) {
             const currentPart = this.props.inventory[this.state.curr_idx];
-            const newPO = new PurchaseOrder(this.props.po_list.length, currentPart, this.state.quantity, currentPart.price_per_part);
+            const newPO = new PurchaseOrder((this.props.po_list.length + 1), currentPart, this.state.quantity, currentPart.price_per_unit);
 
             var newBalanceSheet = clone(this.props.balance_sheet);
 

@@ -253,14 +253,12 @@ class App extends Component {
                     <PurchaseOrderAdd
                         product={this.state.product}
                         balance_sheet={this.state.balance_sheet}
-                        income_statement={this.state.income_statement}
                         inventory={this.state.inventory}
                         po_list={this.state.po_list}
-                        onSubmit={(poList, inventory, balance_sheet, income_statement) => {
+                        onSubmit={(poList, inventory, balance_sheet) => {
                             this.purchaseOrderListHandler(poList);
                             this.inventoryHandler(inventory);
                             this.balanceSheetHandler(balance_sheet);
-                            this.incomeStatementHandler(income_statement);
                         }}/>
                 </div>);
 
@@ -276,10 +274,11 @@ class App extends Component {
                         inventory={this.state.inventory}
                         customer_list={this.state.customer_list}
                         invoice_list={this.state.invoice_list}
-                        onSubmit={(invoiceList, inventory, balance_sheet) => {
+                        onSubmit={(invoiceList, inventory, balance_sheet, income_statement) => {
                             this.invoiceListHandler(invoiceList);
                             this.inventoryHandler(inventory);
                             this.balanceSheetHandler(balance_sheet);
+                            this.incomeStatementHandler(income_statement);
                         }}/>
                 </div>);
 
